@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SILET - Portal Berita Terkini</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary-color: #c62828;
+            --secondary-color: #212121;
+            --accent-color: #ff6f00;
+            --light-color: #f5f5f5;
+            --dark-color: #111;
+            --text-color: #333;
+            --text-light: #777;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        /* Header & Navbar */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .top-bar {
+            background-color: var(--dark-color);
+            padding: 8px 0;
+            font-size: 0.9rem;
+        }
+        
+        .top-bar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .datetime {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-icons a {
+            color: white;
+            transition: color 0.3s;
+        }
+        
+        .social-icons a:hover {
+            color: var(--accent-color);
+        }
+        
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo i {
+            color: var(--accent-color);
+            font-size: 2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 5px 0;
+            position: relative;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            bottom: 0;
+            left: 0;
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-bar input {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            outline: none;
+            width: 200px;
+        }
+        
+        .search-bar button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .search-bar button:hover {
+            background-color: var(--accent-color);
+        }
+        
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        .hero-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .main-news {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .main-news img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .main-news:hover img {
+            transform: scale(1.05);
+        }
+        
+        .main-news-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            padding: 30px;
+        }
+        
+        .main-news-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .main-news-content p {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .category-tag {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .read-more {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .read-more:hover {
+            background-color: var(--accent-color);
+        }
+        
+        .side-news {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .side-news-item {
+            display: flex;
+            gap: 15px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .side-news-item:last-child {
+            border-bottom: none;
+        }
+        
+        .side-news-img {
+            width: 120px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
+        .side-news-content h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        
+        .side-news-content p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+        
+        .news-date {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        
+        /* News Categories */
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .section-title h2 {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+        }
+        
+        .view-all {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        .view-all:hover {
+            color: var(--accent-color);
+        }
+        
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .news-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .news-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .news-card-content {
+            padding: 20px;
+        }
+        
+        .news-card-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .news-card-content p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+        
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        
+        /* Trending News */
+        .trending-news {
+            background-color: var(--light-color);
+            padding: 40px 0;
+            margin-bottom: 50px;
+        }
+        
+        .trending-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .trending-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .trending-item {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .trending-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .trending-number {
+            background-color: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .trending-content h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+        
+        .footer-section p {
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .footer-section.contact p {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .logo h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .top-bar {
+                display: none;
+            }
+            
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .search-bar input {
+                width: 100%;
+            }
+            
+            .main-news-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="top-bar">
+            <div class="top-bar-content">
+                <div class="datetime">
+                    <span id="current-date"></span>
+                    <span id="current-time"></span>
+                </div>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="navbar">
+            <div class="logo">
+                <i class="fas fa-newspaper"></i>
+                <h1>SILET</h1>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#home">Beranda</a></li>
+                <li><a href="#news">Berita Terkini</a></li>
+                <li><a href="#politics">Politik</a></li>
+                <li><a href="#economy">Ekonomi</a></li>
+                <li><a href="#sports">Olahraga</a></li>
+                <li><a href="#entertainment">Hiburan</a></li>
+                <li><a href="#technology">Teknologi</a></li>
+            </ul>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Cari berita...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero-section fade-in" id="home">
+            <div class="main-news">
+                <img src="https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Berita Utama">
+                <div class="main-news-content">
+                    <span class="category-tag">POLITIK</span>
+                    <h2>Pemilu 2024: KPU Tetapkan Jadwal Debat Terbuka Calon Presiden</h2>
+                    <p>Komisi Pemilihan Umum (KPU) resmi menetapkan jadwal debat terbuka calon presiden dan wakil presiden yang akan digelar sebanyak lima putaran mulai November 2023.</p>
+                    <a href="#" class="read-more">Baca Selengkapnya</a>
+                </div>
+            </div>
+            
+            <div class="side-news">
+                <div class="side-news-item">
+                    <img src="https://images.unsplash.com/photo-1612170153139-6f881ff067b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Berita 1" class="side-news-img">
+                    <div class="side-news-content">
+                        <h3>Rupiah Melemah Terhadap Dolar AS, Analis: Pengaruh Eksternal</h3>
+                        <p>Nilai tukar rupiah terhadap dolar AS melemah ke level Rp15.200, tertekan oleh kekhawatiran resesi global.</p>
+                        <div class="news-date">1 jam yang lalu</div>
+                    </div>
+                </div>
+                
+                <div class="side-news-item">
+                    <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Berita 2" class="side-news-img">
+                    <div class="side-news-content">
+                        <h3>Timnas Indonesia U-23 Siap Hadapi Thailand di Semifinal SEA Games</h3>
+                        <p>Pelatih Shin Tae-yong memastikan skuat Garuda Muda dalam kondisi terbaik untuk laga krusial ini.</p>
+                        <div class="news-date">2 jam yang lalu</div>
+                    </div>
+                </div>
+                
+                <div class="side-news-item">
+                    <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Berita 3" class="side-news-img">
+                    <div class="side-news-content">
+                        <h3>Kebakaran Landa Pasar Tradisional di Jakarta Timur</h3>
+                        <p>Kebakaran terjadi dini hari, menghanguskan puluhan kios. Diduga akibat korsleting listrik.</p>
+                        <div class="news-date">3 jam yang lalu</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Berita Terkini -->
+        <section id="news" class="fade-in">
+            <div class="section-title">
+                <h2>Berita Terkini</h2>
+                <a href="#" class="view-all">Lihat Semua <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="news-grid">
+                <article class="news-card">
+                    <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1073&q=80" alt="Berita 1">
+                    <div class="news-card-content">
+                        <span class="category-tag">EKONOMI</span>
+                        <h3>Inflasi September Turun ke 4,3%, Terendah dalam 10 Bulan</h3>
+                        <p>Badan Pusat Statistik (BPS) mencatat inflasi September 2023 sebesar 4,3% year-on-year, turun dari 4,6% pada Agustus.</p>
+                        <div class="news-meta">
+                            <span><i class="far fa-clock"></i> 4 jam yang lalu</span>
+                            <span><i class="far fa-eye"></i> 2.4k dilihat</span>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="news-card">
+                    <img src="https://images.unsplash.com/photo-1599508704512-2f292ef7c6c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Berita 2">
+                    <div class="news-card-content">
+                        <span class="category-tag">TEKNOLOGI</span>
+                        <h3>Startup Lokal Raup Pendanaan Seri B Senilai $50 Juta</h3>
+                        <p>Startup teknologi keuangan asal Indonesia, FinTechID, berhasil mengumpulkan pendanaan seri B senilai $50 juta dari investor global.</p>
+                        <div class="news-meta">
+                            <span><i class="far fa-clock"></i> 5 jam yang lalu</span>
+                            <span><i class="far fa-eye"></i> 1.8k dilihat</span>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="news-card">
+                    <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Berita 3">
+                    <div class="news-card-content">
+                        <span class="category-tag">BISNIS</span>
+                        <h3>CEO Perusahaan Teknologi Mengundurkan Diri Setelah 15 Tahun</h3>
+                        <p>John Doe, CEO TechCorp, mengumumkan pengunduran dirinya setelah memimpin perusahaan selama 15 tahun.</p>
+                        <div class="news-meta">
+                            <span><i class="far fa-clock"></i> 6 jam yang lalu</span>
+                            <span><i class="far fa-eye"></i> 3.1k dilihat</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+        
+        <!-- Trending News -->
+        <section class="trending-news fade-in">
+            <div class="trending-container">
+                <div class="section-title">
+                    <h2>Trending Now</h2>
+                    <a href="#" class="view-all">Lihat Semua <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="trending-list">
+                    <div class="trending-item">
+                        <div class="trending-number">1</div>
+                        <div class="trending-content">
+                            <h4>Kenaikan Harga BBM Subsidi Mulai Berlaku Besok</h4>
+                            <div class="news-date">12 jam yang lalu • 15k dilihat</div>
+                        </div>
+                    </div>
+                    
+                    <div class="trending-item">
+                        <div class="trending-number">2</div>
+                        <div class="trending-content">
+                            <h4>Viral Video Kekerasan di Sekolah, Polisi Segera Tetapkan Tersangka</h4>
+                            <div class="news-date">10 jam yang lalu • 12.5k dilihat</div>
+                        </div>
+                    </div>
+                    
+                    <div class="trending-item">
+                        <div class="trending-number">3</div>
+                        <div class="trending-content">
+                            <h4>Guru Besar UI Temukan Obat Potensial untuk Penyakit Langka</h4>
+                            <div class="news-date">8 jam yang lalu • 9.8k dilihat</div>
+                        </div>
+                    </div>
+                    
+                    <div class="trending-item">
+                        <div class="trending-number">4</div>
+                        <div class="trending-content">
+                            <h4>Pengembang Property Tawarkan Diskon hingga 30% di Akhir Tahun</h4>
+                            <div class="news-date">7 jam yang lalu • 8.2k dilihat</div>
+                        </div>
+                    </div>
+                    
+                    <div class="trending-item">
+                        <div class="trending-number">5</div>
+                        <div class="trending-content">
+                            <h4>Artis Senior Meninggal Dunia Setelah Berjuang Melawan Penyakit</h4>
+                            <div class="news-date">6 jam yang lalu • 7.5k dilihat</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Berita Olahraga -->
+        <section id="sports" class="fade-in">
+            <div class="section-title">
+                <h2>Berita Olahraga</h2>
+                <a href="#" class="view-all">Lihat Semua <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="news-grid">
+                <article class="news-card">
+                    <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Olahraga 1">
+                    <div class="news-card-content">
+                        <span class="category-tag">SEPAKBOLA</span>
+                        <h3>Persib Bandung Kalahkan Persija 2-1 dalam Derby Jakarta-Bandung</h3>
+                        <p>Persib Bandung berhasil mengalahkan Persija Jakarta dengan skor 2-1 dalam laga panas Derby Jakarta-Bandung di Stadion GBK.</p>
+                        <div class="news-meta">
+                            <span><i class="far fa-clock"></i> 1 hari yang lalu</span>
+                            <span><i class="far fa-eye"></i> 5.2k dilihat</span>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="news-card">
+                    <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1190&q=80" alt="Olahraga 2">
+                    <div class="news-card-content">
+                        <span class="category-tag">BULUTANGKIS</span>
+                        <h3>Anthony Ginting Juara Denmark Open 2023</h3>
+                        <p>Pebulutangkis Indonesia, Anthony Sinisuka Ginting, keluar sebagai juara Denmark Open 2023 setelah mengalahkan wakil Jepang.</p>
+                        <div class="news-meta">
+                            <span><i class="far fa-clock"></i> 2 hari yang lalu</span>
+                            <span><i class="far fa-eye"></i> 4.7k dilihat</span>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="news-card">
+                    <img src="https://images.unsplash.com/photo-1575361204480-aadea25e6e68?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80" alt="Olahraga 3">
+                    <div class="news-card-content">
+                        <span class="category-tag">MOTOGP</span>
+                        <h3>Fabio Quartararo Juara Seri Mandalika, Pecco Bagnaia Tetap Puncaki Klasemen</h3>
+                        <p>Pebalap Yamaha, Fabio Quartararo, menang di seri Mandalika, namun Pecco Bagnaia tetap memimpin klasemen sementara MotoGP 2023.</p>
+                        <div class="news-meta">
+                            <span><i class="far fa-clock"></i> 3 hari yang lalu</span>
+                            <span><i class="far fa-eye"></i> 3.9k dilihat</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Tentang SILET</h3>
+                <p>SILET adalah portal berita terpercaya yang menyajikan informasi terkini dan akurat dari dalam dan luar negeri. Berdiri sejak 2010, kami berkomitmen untuk menyajikan jurnalisme berkualitas.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Kategori Berita</h3>
+                <ul class="footer-links">
+                    <li><a href="#politics">Politik</a></li>
+                    <li><a href="#economy">Ekonomi & Bisnis</a></li>
+                    <li><a href="#sports">Olahraga</a></li>
+                    <li><a href="#entertainment">Hiburan</a></li>
+                    <li><a href="#technology">Teknologi</a></li>
+                    <li><a href="#health">Kesehatan</a></li>
+                    <li><a href="#education">Pendidikan</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section contact">
+                <h3>Kontak Kami</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Jl. Merdeka No. 123, Jakarta Pusat</p>
+                <p><i class="fas fa-phone"></i> (021) 1234-5678</p>
+                <p><i class="fas fa-envelope"></i> redaksi@siletnews.com</p>
+                <p><i class="fas fa-fax"></i> (021) 8765-4321</p>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 SILET - Portal Berita Terkini. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Update tanggal dan waktu
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = now.toLocaleDateString('id-ID', options);
+            const timeString = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            
+            document.getElementById('current-date').textContent = dateString;
+            document.getElementById('current-time').textContent = timeString;
+        }
+        
+        // Update setiap detik
+        setInterval(updateDateTime, 1000);
+        updateDateTime(); // Panggil pertama kali
+        
+        // Animasi scroll untuk navigasi
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Efek hover untuk kartu berita
+        document.querySelectorAll('.news-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // Fungsi pencarian sederhana
+        document.querySelector('.search-bar button').addEventListener('click', function() {
+            const searchTerm = document.querySelector('.search-bar input').value;
+            if(searchTerm.trim()) {
+                alert(`Mencari berita: "${searchTerm}"`);
+                // Di implementasi nyata, ini akan mengarahkan ke halaman pencarian
+            }
+        });
+        
+        // Enter key untuk pencarian
+        document.querySelector('.search-bar input').addEventListener('keypress', function(e) {
+            if(e.key === 'Enter') {
+                document.querySelector('.search-bar button').click();
+            }
+        });
+        
+        // Animasi fade in saat scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+        
+        // Amati semua section
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
